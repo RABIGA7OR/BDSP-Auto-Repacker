@@ -19,6 +19,8 @@ This script needs the following folder structure:
 -   src/
     -   ev_as.exe OR ev_as.py
     -   ev_parse.exe OR ev_parse.py
+-   EditedAssets/
+-   scripts/
 
 You also need to include all of the structure both of these tools require. See their repos for additional information
 
