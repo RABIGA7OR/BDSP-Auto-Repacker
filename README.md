@@ -2,6 +2,18 @@
 
 This program is intended to make development for BDSP easier and quicker.
 
+## How does it work?
+
+While running this program, the `scripts/` and `AssetFolder/` are constantly monitored for filechanges.
+
+If a file change is registered, the program will run the repacker if there are no further changes for 10 seconds.
+
+When no more filechanges were registered for 10 seconds, a repack job will be started that automatically repacks the scripts and the assets.
+
+Afterwards, the repacked files from `EditedAssets/` and `bin/ev_script` will be moved into your chosen mod folder.
+
+What files are updated and the wait before starting a repack can be changed in the script itself.
+
 ## Requirements
 
 Run `pip install -r requirements.txt` to download the required python libraries.
