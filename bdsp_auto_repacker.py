@@ -82,13 +82,18 @@ def config_setup():
     
     logging.info("Config file created")
 
-def file_change(event):
+def file_change_modified(event):
     global queue_trigger_datetime, repacking_active, REPACK_TIMEOUT
     
     last_modified = datetime.datetime.fromtimestamp(os.path.getmtime(event.src_path))
     modified_recently = datetime.datetime.now() - datetime.timedelta(0, 10)
+    
     # Check if the file was actually modified. This event seems to trigger if just some metadata changes too
     if last_modified < modified_recently:
+        return
+    
+    # Ignore temporary files
+    if os.path.basename(event.src_path).lower().endswith(".tmp"):
         return
     
     # Ignore filechanges to english asset files if repacking is active - these might be modified by macros
@@ -100,6 +105,10 @@ def file_change(event):
 
 def file_change_generic(event):
     global queue_trigger_datetime
+    
+    # Ignore temporary files
+    if os.path.basename(event.src_path).lower().endswith(".tmp"):
+        return
     
     queue_trigger_datetime = datetime.datetime.now() + datetime.timedelta(0, REPACK_TIMEOUT)
     logging.info(f"Next repack scheduled for {queue_trigger_datetime.strftime('%H:%M:%S')}")
@@ -168,7 +177,7 @@ if __name__ == "__main__":
     os.chdir(config["project_directory"])
     
     event_handler = LoggingEventHandler()
-    event_handler.on_modified = file_change
+    event_handler.on_modified = file_change_modified
     event_handler.on_created = file_change_generic
     event_handler.on_moved = file_change_generic
     event_handler.on_deleted = file_change_generic
