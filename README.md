@@ -36,6 +36,20 @@ This script needs the following folder structure:
 
 You also need to include all of the structure both of these tools require. See their repos for additional information
 
+## Terminology
+
+### Project Folder
+
+It should link to the folder that has your `bin/` and `EditedAssets/` folders.
+
+It should be the folder that this script is in if you followed the instructions.
+
+### Mod Folder
+
+It should link to the folder of your mod that has the `romfs` `exefs` folders inside of it.
+
+To make it quicker you can link this directly into the mod folder of your emulator.
+
 ## Usage
 
 -   Run `bdsp_auto_repacker.py`
