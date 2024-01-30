@@ -117,11 +117,16 @@ def idle():
     global queue_trigger_datetime, repacking_active
     
     if queue_trigger_datetime is not None and queue_trigger_datetime <= datetime.datetime.now() and not repacking_active:
-        repacking_active = True
-        queue_trigger_datetime = None
-        thread = threading.Thread(target=repack)
-        thread.start()
-        logging.info("Repacking has started")
+        create_thread()
+
+def create_thread():
+    global queue_trigger_datetime, repacking_active
+
+    repacking_active = True
+    queue_trigger_datetime = None
+    thread = threading.Thread(target=repack)
+    thread.start()
+    logging.info("Repacking has started")
 
 def repack():
     global subprocess, repacking_active, queue_trigger_datetime
@@ -191,6 +196,9 @@ if __name__ == "__main__":
             print("At least one of these folders are missing:", folders)
             exit()
         observers.append(observer)
+
+    # Repack on startup
+    create_thread()
 
     try:
         while True:
